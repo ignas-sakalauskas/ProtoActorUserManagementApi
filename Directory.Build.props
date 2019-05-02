@@ -1,0 +1,7 @@
+<Project>
+  <PropertyGroup>
+    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
+    <GenerateFullPaths>true</GenerateFullPaths>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+</Project>

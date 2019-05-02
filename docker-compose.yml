@@ -1,0 +1,37 @@
+version: '3.5'
+
+services:
+
+  users-jaegertracing:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "5775:5775/udp"
+      - "6831:6831/udp"
+      - "6832:6832/udp"
+      - "5778:5778"
+      - "16686:16686"
+      - "14268:14268"
+      - "9411:9411"
+
+  users-seq:
+    image: datalust/seq:latest
+    environment:
+      ACCEPT_EULA: Y
+   # volumes:
+   #   - ./seq-data:/data
+    ports:
+      - "5341:80"
+
+  users-api:
+    build:
+      context: .
+      dockerfile: ./src/UserManagement.Api/Dockerfile
+    depends_on:
+      - users-seq
+      - users-jaegertracing
+    environment:
+      - ASPNETCORE_URLS=http://*:5000
+      - ASPNETCORE_ENVIRONMENT=Development
+      - USER_Seq:ServerUrl=http://win.local:5341
+    ports:
+      - "5000:5000"
