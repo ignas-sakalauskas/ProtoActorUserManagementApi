@@ -17,8 +17,6 @@ services:
     image: datalust/seq:latest
     environment:
       ACCEPT_EULA: Y
-   # volumes:
-   #   - ./seq-data:/data
     ports:
       - "5341:80"
 
@@ -32,6 +30,8 @@ services:
     environment:
       - ASPNETCORE_URLS=http://*:5000
       - ASPNETCORE_ENVIRONMENT=Development
-      - USER_Seq:ServerUrl=http://win.local:5341
+      # Override local config values
+      - Seq:ServerUrl=http://win.local:5341
+      - Jaeger:JAEGER_AGENT_HOST=win.local
     ports:
       - "5000:5000"

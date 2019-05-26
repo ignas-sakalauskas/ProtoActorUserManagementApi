@@ -9,7 +9,7 @@ WORKDIR /src/UserManagement.Api/
 RUN dotnet publish -c $BUILDCONFIG -o out /p:Version=$VERSION
 
 # build runtime image
-FROM mcr.microsoft.com/dotnet/core/runtime:2.1
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.1
 WORKDIR /app
 COPY --from=build /src/UserManagement.Api/out ./
 

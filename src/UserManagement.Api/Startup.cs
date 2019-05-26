@@ -22,25 +22,27 @@ namespace UserManagement.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        private readonly IConfiguration _configuration;
+        private readonly ILoggerFactory _loggerFactory;
 
-        public IConfiguration Configuration { get; }
+        public Startup(IConfiguration configuration, ILoggerFactory loggerFactory)
+        {
+            _configuration = configuration;
+            _loggerFactory = loggerFactory;
+        }
 
         public void ConfigureServices(IServiceCollection services)
         {
             // Configuration
             services.AddOptions();
-            services.Configure<ApiSettings>(Configuration.GetSection("Api"));
-            services.Configure<ActorSettings>(Configuration.GetSection("Actors"));
+            services.Configure<ApiSettings>(_configuration.GetSection("Api"));
+            services.Configure<ActorSettings>(_configuration.GetSection("Actors"));
 
             // Logging
             services.AddLogging(builder =>
             {
-                builder.AddConfiguration(Configuration.GetSection("Logging"));
-                builder.AddSeq(Configuration.GetSection("Seq"));
+                builder.AddConfiguration(_configuration.GetSection("Logging"));
+                builder.AddSeq(_configuration.GetSection("Seq"));
                 builder.AddDebug();
             });
 
@@ -48,7 +50,7 @@ namespace UserManagement.Api
             services.AddSingleton<IProvider, InMemoryProvider>();
 
             // Monitoring
-            services.AddSingleton<ITracer>(new Tracer.Builder("UserManagementApi").WithSampler(new ConstSampler(true)).Build());
+            services.AddSingleton<ITracer>(Jaeger.Configuration.FromIConfiguration(_loggerFactory, _configuration.GetSection("Jaeger")).GetTracer());
 
             // Actors
             services.AddSingleton<IActorManager, ActorManager>();
@@ -62,10 +64,10 @@ namespace UserManagement.Api
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
-        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory, ITracer tracer)
+        public void Configure(IApplicationBuilder app, ITracer tracer)
         {
-            loggerFactory.AddDebug();
-            Log.SetLoggerFactory(loggerFactory);
+            _loggerFactory.AddDebug();
+            Log.SetLoggerFactory(_loggerFactory);
 
             // Register Jaeger monitoring
             GlobalTracer.Register(tracer);
