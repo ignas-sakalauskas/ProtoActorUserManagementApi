@@ -187,6 +187,20 @@ namespace UserManagement.Domain.Tests
         }
 
         [Theory, AutoData]
+        public void Given_created_on_date_is_null_when_creating_user_should_use_now_utc_date(Guid id, string name)
+        {
+            // Given
+            // When
+            var result = _sut.CreateUser(id, name);
+
+            // Then
+            result.Should().BeOfType<UserCreated>();
+            result.As<UserCreated>().Id.Should().Be(id);
+            result.As<UserCreated>().Name.Should().Be(name);
+            result.As<UserCreated>().CreatedOn.Should().BeCloseTo(DateTimeOffset.UtcNow, TimeSpan.FromSeconds(20), "giving enough time for test to run, even if debugging");
+        }
+
+        [Theory, AutoData]
         public void Given_empty_state_when_getting_all_users_should_return_empty_list(int limit, int skip)
         {
             // Given

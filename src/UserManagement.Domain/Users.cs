@@ -34,7 +34,6 @@ namespace UserManagement.Domain
                 return new UserRetrieved(user.Id, user.Name, user.CreatedOn);
             }
 
-            // TODO unit test null
             var newUser = new User(id, name, createdOn ?? DateTimeOffset.UtcNow);
             if (State.TryAdd(id, newUser))
             {
