@@ -31,7 +31,7 @@ services:
       - ASPNETCORE_URLS=http://*:5000
       - ASPNETCORE_ENVIRONMENT=Development
       # Override local config values
-      - Seq:ServerUrl=http://win.local:5341
-      - Jaeger:JAEGER_AGENT_HOST=win.local
+      - Seq:ServerUrl=http://users-seq:5341
+      - Jaeger:JAEGER_AGENT_HOST=users-jaegertracing
     ports:
       - "5000:5000"
