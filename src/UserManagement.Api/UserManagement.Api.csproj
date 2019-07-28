@@ -9,7 +9,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-    <PackageReference Include="Jaeger" Version="0.3.2" />
+    <PackageReference Include="Jaeger" Version="0.3.3" />
     <PackageReference Include="Seq.Extensions.Logging" Version="4.0.1" />
   </ItemGroup>
 
