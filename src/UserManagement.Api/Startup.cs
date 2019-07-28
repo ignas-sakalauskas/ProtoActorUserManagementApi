@@ -1,6 +1,4 @@
-﻿using Jaeger;
-using Jaeger.Samplers;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -50,7 +48,7 @@ namespace UserManagement.Api
             services.AddSingleton<IProvider, InMemoryProvider>();
 
             // Monitoring
-            services.AddSingleton<ITracer>(Jaeger.Configuration.FromIConfiguration(_loggerFactory, _configuration.GetSection("Jaeger")).GetTracer());
+            services.AddSingleton(Jaeger.Configuration.FromIConfiguration(_loggerFactory, _configuration.GetSection("Jaeger")).GetTracer());
 
             // Actors
             services.AddSingleton<IActorManager, ActorManager>();

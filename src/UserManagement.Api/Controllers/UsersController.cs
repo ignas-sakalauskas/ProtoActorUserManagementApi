@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using OpenTracing;
-using Proto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using UserManagement.Actors.Constants;
 using UserManagement.Actors.Managers;
 using UserManagement.Api.Configuration;
 using UserManagement.Api.Constants;
